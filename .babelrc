@@ -1,8 +1,10 @@
 {
     "presets": [
-        "env"
+        "env",
+        "stage-3"
     ],
     "plugins":[
-        "transform-vue-jsx"
+        "transform-vue-jsx",
+        "syntax-dynamic-import"
     ]
 }

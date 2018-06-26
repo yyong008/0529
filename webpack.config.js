@@ -28,7 +28,7 @@ const config = {
         {
           loader: 'postcss-loader',
           options: {
-            sourceMap: true,
+            sourceMap: true
           }
         },
         'stylus-loader'
@@ -55,9 +55,9 @@ const config = {
   ]
 }
 
-//用isDev来区分 dev 和 prod
+//  用isDev来区分 dev 和 prod
 if (isDev) {
-  config.devtool = "#cheap-module-eval-source-map"
+  config.devtool = '#cheap-module-eval-source-map'
   config.devServer = {
     port: 8000,
     host: '0.0.0.0',
@@ -68,7 +68,7 @@ if (isDev) {
   }
   config.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
   )
 } else {
   config.entry = {
@@ -88,4 +88,4 @@ if (isDev) {
     }
 }
 
-module.exports = config;
+module.exports = config

@@ -1,15 +1,16 @@
 const path = require('path')
+const webpack = require('webpack')
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.config.base')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const VueServerPlugin = require('vue-server-renderer/server-plugin')
 
 let config = merge(baseConfig, {
-  traget: 'node',
+  target: 'node',
   entry: path.join(__dirname, '../client/server-entry.js'),
   output: {
-    libraryTarget: 'commonjs32',
-    filename: 'server-entry.js',
+    libraryTarget: 'commonjs2',
+    filename: 'entry-server.js',
     path: path.join(__dirname, '../server-build')
   },
   externals: Object.keys(require('../package.json').dependencies),
@@ -17,7 +18,9 @@ let config = merge(baseConfig, {
     rules: [{
       test: /\.styl(us)?$/,
       use: [
-        MiniCssExtractPlugin.loader,
+        process.env.NODE_ENV !== 'production'
+          ? 'vue-style-loader'
+          : MiniCssExtractPlugin.loader,
         'css-loader',
         {
           loader: 'postcss-loader',
@@ -30,14 +33,17 @@ let config = merge(baseConfig, {
     }]
 
   },
-  devtool: '#source-map',
-
+  devtool: 'source-map',
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      'process.env.VUE_ENV': '"server"'
+    }),
     new MiniCssExtractPlugin({
       filename: 'style.[contentHash:8].css'
     }),
+    // 'vue-ssr-server-bundle.json'是默认的文件名
     new VueServerPlugin()
-
   ]
 })
 

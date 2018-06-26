@@ -19,6 +19,7 @@
       @toggle="toggleFilter"
       @clearAllCompleted="clearAllCompleted"
     />
+    <!-- <router-view /> -->
   </section>
 </template>
 
@@ -27,6 +28,28 @@ import Item from './item.vue'
 import Tabs from './tabs.vue'
 let id = 0
 export default {
+  metaInfo: {
+    title: 'The Todo app'
+  },
+  beforeRouteEnter (to, from, next) {
+    console.log('[组件内]-todo before enter, 不能拿到this,', this)
+    // 拿不到 this 通过 next 拿到 实例 vm
+    next(vm => {
+      console.log('after enter vm.id is', vm.id)
+    })
+  },
+  beforeRouteUpdate (to, from, next) {
+    console.log('[组件内]-todo update enter')
+    next()
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log('[组件内]-todo leave enter')
+    next()
+  },
+  props: ['id'],
+  // mounted () {
+  //   console.log(this.$route)
+  // },
   data () {
     return {
       todos: [],
